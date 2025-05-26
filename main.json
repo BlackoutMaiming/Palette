@@ -1,0 +1,10 @@
+{
+    "id": "palette",
+    "name": "Palette",
+    "author": ["BlackoutMaiming"],
+    "description": "Adds colour customisability",
+    "prefix": "palette",
+    "main_file": "main.lua",
+    "priority": 0,
+    "version": "1.0.0"
+}

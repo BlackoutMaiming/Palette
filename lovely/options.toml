@@ -1,0 +1,30 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+
+#Import menu into settings
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''
+  local customize = UIBox_button{ label = {localize('b_customize_deck')}, button = "customize_deck", minw = 5}
+'''
+position = 'after'
+payload = '''
+  local palette = UIBox_button{ label = {'Palette'}, button = "palette", minw = 5, colour = G.C.PURPLE }
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''
+      customize,
+'''
+position = 'after'
+payload = '''
+      palette,
+'''
+match_indent = true
