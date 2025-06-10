@@ -1,0 +1,105 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+##HUD Colours
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = '''
+    if state == G.STATES.SHOP then 
+        ease_colour(G.C.DYN_UI.MAIN, mix_colours(G.C.RED, G.C.BLACK, 0.9))
+    elseif state == G.STATES.TAROT_PACK then
+        ease_colour(G.C.DYN_UI.MAIN, mix_colours(G.C.WHITE, G.C.BLACK, 0.9))
+    elseif state == G.STATES.SPECTRAL_PACK then
+        ease_colour(G.C.DYN_UI.MAIN, mix_colours(G.C.SECONDARY_SET.Spectral, G.C.BLACK, 0.9))
+    elseif state == G.STATES.STANDARD_PACK then
+        ease_colour(G.C.DYN_UI.MAIN, G.C.RED)
+    elseif state == G.STATES.BUFFOON_PACK then
+        ease_colour(G.C.DYN_UI.MAIN, G.C.FILTER)
+    elseif state == G.STATES.PLANET_PACK then
+        ease_colour(G.C.DYN_UI.MAIN, mix_colours(G.C.SECONDARY_SET.Planet, G.C.BLACK, 0.9))
+    elseif G.GAME.blind then 
+        G.GAME.blind:change_colour()
+    end
+'''
+position = 'at'
+payload = '''
+    if state == G.STATES.SHOP then 
+        ease_colour(G.C.DYN_UI.MAIN, mix_colours(G.C.RED, G.C.BLACK, 0.9))
+    elseif state == G.STATES.TAROT_PACK then
+        ease_colour(G.C.DYN_UI.MAIN, HEX(palette.config.PACKS.ARCANA.HUDCOLOUR))
+    elseif state == G.STATES.SPECTRAL_PACK then
+        ease_colour(G.C.DYN_UI.MAIN, HEX(palette.config.PACKS.SPECTRAL.HUDCOLOUR))
+    elseif state == G.STATES.STANDARD_PACK then
+        ease_colour(G.C.DYN_UI.MAIN, HEX(palette.config.PACKS.STANDARD.HUDCOLOUR))
+    elseif state == G.STATES.BUFFOON_PACK then
+        ease_colour(G.C.DYN_UI.MAIN, HEX(palette.config.PACKS.BUFFOON.HUDCOLOUR))
+    elseif state == G.STATES.PLANET_PACK then
+        ease_colour(G.C.DYN_UI.MAIN, HEX(palette.config.PACKS.CELESTIAL.HUDCOLOUR))
+    elseif G.GAME.blind then 
+        G.GAME.blind:change_colour()
+    end
+'''
+match_indent = false
+
+##Background Colours
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = '''
+    if state == G.STATES.TAROT_PACK then
+        ease_background_colour{new_colour = G.C.PURPLE, special_colour = darken(G.C.BLACK, 0.2), contrast = 1.5}
+    elseif state == G.STATES.SPECTRAL_PACK then
+        ease_background_colour{new_colour = G.C.SECONDARY_SET.Spectral, special_colour = darken(G.C.BLACK, 0.2), contrast = 2}
+    elseif state == G.STATES.STANDARD_PACK then
+        ease_background_colour{new_colour = darken(G.C.BLACK, 0.2), special_colour = G.C.RED, contrast = 3}
+    elseif state == G.STATES.BUFFOON_PACK then
+        ease_background_colour{new_colour = G.C.FILTER, special_colour = G.C.BLACK, contrast = 2}
+    elseif state == G.STATES.PLANET_PACK then
+        ease_background_colour{new_colour = G.C.BLACK, contrast = 3}
+'''
+position = 'at'
+payload = '''
+    if state == G.STATES.TAROT_PACK then
+        ease_background_colour{new_colour = HEX(palette.config.PACKS.ARCANA.COLOURO), special_colour = HEX(palette.config.PACKS.ARCANA.COLOURT), contrast = palette.config.PACKS.ARCANA.CONTRAST}
+    elseif state == G.STATES.SPECTRAL_PACK then
+        ease_background_colour{new_colour = HEX(palette.config.PACKS.SPECTRAL.COLOURO), special_colour = HEX(palette.config.PACKS.SPECTRAL.COLOURT), contrast = palette.config.PACKS.SPECTRAL.CONTRAST}
+    elseif state == G.STATES.STANDARD_PACK then
+        ease_background_colour{new_colour = HEX(palette.config.PACKS.STANDARD.COLOURO), special_colour = HEX(palette.config.PACKS.STANDARD.COLOURT), contrast = palette.config.PACKS.STANDARD.CONTRAST}
+    elseif state == G.STATES.BUFFOON_PACK then
+        ease_background_colour{new_colour = HEX(palette.config.PACKS.BUFFOON.COLOURO), special_colour = HEX(palette.config.PACKS.BUFFOON.COLOURT), contrast = palette.config.PACKS.BUFFOON.CONTRAST}
+    elseif state == G.STATES.PLANET_PACK then
+        ease_background_colour{new_colour = HEX(palette.config.PACKS.CELESTIAL.COLOUR), contrast = palette.config.PACKS.CELESTIAL.CONTRAST}
+'''
+match_indent = false
+
+##Arcana
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/game_object.lua"]'
+pattern = '''
+                timer = 0.015,
+                scale = 0.2,
+                initialize = true,
+                lifespan = 1,
+                speed = 1.1,
+                padding = -1,
+                attach = G.ROOM_ATTACH,
+                colours = {G.C.WHITE, lighten(G.C.PURPLE, 0.4), lighten(G.C.PURPLE, 0.2), lighten(G.C.GOLD, 0.2)},
+                fill = true
+'''
+position = 'at'
+payload = '''
+                timer = palette.config.PACKS.ARCANA.SPARKLES.TIMER,
+                scale = palette.config.PACKS.ARCANA.SPARKLES.SCALE,
+                initialize = true,
+                lifespan = palette.config.PACKS.ARCANA.SPARKLES.LIFESPAN,
+                speed = palette.config.PACKS.ARCANA.SPARKLES.SPEED,
+                padding = -1,
+                attach = G.ROOM_ATTACH,
+                colours = {HEX(palette.config.PACKS.ARCANA.SPARKLES.COLOURS.ONE), HEX(palette.config.PACKS.ARCANA.SPARKLES.COLOURS.TWO), HEX(palette.config.PACKS.ARCANA.SPARKLES.COLOURS.THREE), HEX(palette.config.PACKS.ARCANA.SPARKLES.COLOURS.FOUR)},
+                fill = true
+'''
+match_indent = false

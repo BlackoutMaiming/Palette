@@ -1,0 +1,89 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.pattern]
+target = 'game.lua'
+pattern = '''
+    G.SPLASH_BACK:define_draw_steps({{
+        shader = 'splash',
+        send = {
+            {name = 'time', ref_table = G.TIMERS, ref_value = 'REAL_SHADER'},
+            {name = 'vort_speed', val = 0.4},
+            {name = 'colour_1', ref_table = G.C, ref_value = 'RED'},
+            {name = 'colour_2', ref_table = G.C, ref_value = 'BLUE'},
+            {name = 'mid_flash', ref_table = splash_args, ref_value = 'mid_flash'},
+            {name = 'vort_offset', val = 0},
+        }}})
+
+    --Display the unlocked decks and cards from the previous run
+'''
+position = 'at'
+payload = '''
+    G.SPLASH_BACK:define_draw_steps({{
+        shader = 'splash',
+        send = {
+            {name = 'time', ref_table = G.TIMERS, ref_value = 'REAL_SHADER'},
+            {name = 'vort_speed', val = palette.config.MAIN_MENU.SPLASH.VORTSPEED},
+            {name = 'colour_1', val = HEX(palette.config.MAIN_MENU.SPLASH.COLOURO) },
+            {name = 'colour_2', val = HEX(palette.config.MAIN_MENU.SPLASH.COLOURT) },
+            {name = 'mid_flash', ref_table = splash_args, ref_value = 'mid_flash'},
+            {name = 'vort_offset', val = 0},
+        }}})
+
+    --Display the unlocked decks and cards from the previous run
+'''
+match_indent = false
+
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''
+UIBox_button{id = 'main_menu_play', button = not G.SETTINGS.tutorial_complete and "start_run" or "setup_run", colour = G.C.BLUE, minw = 3.65, minh = 1.55, label = {localize('b_play_cap')}, scale = text_scale*2, col = true},
+'''
+position = 'at'
+payload = '''
+UIBox_button{id = 'main_menu_play', button = not G.SETTINGS.tutorial_complete and "start_run" or "setup_run", colour = HEX(palette.config.MAIN_MENU.BUTTONS.PLAY), minw = 3.65, minh = 1.55, label = {localize('b_play_cap')}, scale = text_scale*2, col = true},
+'''
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''
+UIBox_button{button = 'options', colour = G.C.ORANGE, minw = 2.65, minh = 1.35, label = {localize('b_options_cap')}, scale = text_scale * 1.2, col = true},
+'''
+position = 'at'
+payload = '''
+UIBox_button{button = 'options', colour = HEX(palette.config.MAIN_MENU.BUTTONS.OPTIONS), minw = 2.65, minh = 1.35, label = {localize('b_options_cap')}, scale = text_scale * 1.2, col = true},
+'''
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''
+G.F_QUIT_BUTTON and UIBox_button{button = quit_func, colour = G.C.RED, minw = 2.65, minh = 1.35, label = {localize('b_quit_cap')}, scale = text_scale * 1.2, col = true} or nil,
+'''
+position = 'at'
+payload = '''
+G.F_QUIT_BUTTON and UIBox_button{button = quit_func, colour = HEX(palette.config.MAIN_MENU.BUTTONS.QUIT), minw = 2.65, minh = 1.35, label = {localize('b_quit_cap')}, scale = text_scale * 1.2, col = true} or nil,
+'''
+match_indent = true
+
+
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''
+UIBox_button{id = 'collection_button', button = "your_collection", colour = G.C.PALE_GREEN, minw = 3.65, minh = 1.55, label = {localize('b_collection_cap')}, scale = text_scale*1.5, col = true},
+'''
+position = 'at'
+payload = '''
+UIBox_button{id = 'collection_button', button = "your_collection", colour = HEX(palette.config.MAIN_MENU.BUTTONS.COLLECTION), minw = 3.65, minh = 1.55, label = {localize('b_collection_cap')}, scale = text_scale*1.5, col = true},
+'''
+match_indent = true

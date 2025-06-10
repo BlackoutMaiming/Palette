@@ -2,7 +2,7 @@
     "id": "palette",
     "name": "Palette",
     "author": ["BlackoutMaiming"],
-    "description": "Adds colour customisability",
+    "description": "Adds full customisability",
     "prefix": "palette",
     "main_file": "main.lua",
     "priority": 0,

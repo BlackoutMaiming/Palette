@@ -8,29 +8,26 @@ priority = 0
 [patches.pattern]
 target = 'engine/controller.lua'
 pattern = '''
-            G.FUNCS.text_input_key{
-                e=self.text_input_hook,
-                key = key,
-                caps = self.held_keys["lshift"] or self.held_keys["rshift"]
-            }
+if self.text_input_hook then
 '''
-position = 'at'
+position = 'before'
 payload = '''
-if string.sub(self.text_input_id,1,7) == "palette" then
-    G.FUNCS.palette_text_input_key{
-        e=self.text_input_hook,
-        key = key,
-        caps = true
-    }
-    sendInfoMessage("Working")
-else
-    G.FUNCS.text_input_key{
-        e=self.text_input_hook,
-        key = key,
-        caps = self.held_keys["lshift"] or self.held_keys["rshift"]
-    }
-    sendInfoMessage("Not Working")
-    sendInfoMessage(string.sub(self.text_input_id,1,7))
+if self.text_input_hook and string.sub(self.text_input_id,1,7) == "palette" then
+    if string.sub(self.text_input_id,-3) == "hex" then
+        G.FUNCS.palette_text_input_key_hex{
+            e=self.text_input_hook,
+            key = key,
+            caps = true
+        }
+    elseif string.sub(self.text_input_id,-3) == "jid" then
+        G.FUNCS.palette_text_input_key_jid{
+            e=self.text_input_hook,
+            key = key,
+            caps = self.held_keys["lshift"] or self.held_keys["rshift"]
+        }
+    end
+    return
 end
+
 '''
 match_indent = true
