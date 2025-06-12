@@ -1,0 +1,18 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+##Nil check the value to stop the error when closing a settings page
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+pattern = '''
+function G.FUNCS.slider(e)
+  local c = e.children[1]
+'''
+position = 'after'
+payload = '''
+  if not c then return end
+'''
+match_indent = false

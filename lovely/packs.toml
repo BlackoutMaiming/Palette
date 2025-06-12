@@ -103,3 +103,115 @@ payload = '''
                 fill = true
 '''
 match_indent = false
+
+##Celestial Stars
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/game_object.lua"]'
+pattern = '''
+                timer = 0.07,
+                scale = 0.1,
+                initialize = true,
+                lifespan = 15,
+                speed = 0.1,
+                padding = -4,
+                attach = G.ROOM_ATTACH,
+                colours = {G.C.WHITE, HEX('a7d6e0'), HEX('fddca0')},
+                fill = true
+'''
+position = 'at'
+payload = '''
+                timer = palette.config.PACKS.CELESTIAL.STARS.TIMER,
+                scale = palette.config.PACKS.CELESTIAL.STARS.SCALE,
+                initialize = true,
+                lifespan = palette.config.PACKS.CELESTIAL.STARS.LIFESPAN,
+                speed = palette.config.PACKS.CELESTIAL.STARS.SPEED,
+                padding = -4,
+                attach = G.ROOM_ATTACH,
+                colours = {HEX(palette.config.PACKS.CELESTIAL.STARS.COLOURS.ONE), HEX(palette.config.PACKS.CELESTIAL.STARS.COLOURS.TWO), HEX(palette.config.PACKS.CELESTIAL.STARS.COLOURS.THREE)},
+                fill = true
+'''
+match_indent = false
+
+##Celestial Meteors
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/game_object.lua"]'
+pattern = '''
+                timer = 2,
+                scale = 0.05,
+                lifespan = 1.5,
+                speed = 4,
+                attach = G.ROOM_ATTACH,
+                colours = {G.C.WHITE},
+                fill = true
+'''
+position = 'at'
+payload = '''
+                timer = palette.config.PACKS.CELESTIAL.METEORS.TIMER,
+                scale = palette.config.PACKS.CELESTIAL.METEORS.SCALE,
+                lifespan = palette.config.PACKS.CELESTIAL.METEORS.LIFESPAN,
+                speed = palette.config.PACKS.CELESTIAL.METEORS.SPEED,
+                attach = G.ROOM_ATTACH,
+                colours = {HEX(palette.config.PACKS.CELESTIAL.METEORS.COLOURS.ONE)},
+                fill = true
+'''
+match_indent = false
+
+##Spectral
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/game_object.lua"]'
+pattern = '''
+                timer = 0.015,
+                scale = 0.1,
+                initialize = true,
+                lifespan = 3,
+                speed = 0.2,
+                padding = -1,
+                attach = G.ROOM_ATTACH,
+                colours = {G.C.WHITE, lighten(G.C.GOLD, 0.2)},
+                fill = true
+'''
+position = 'at'
+payload = '''
+                timer = palette.config.PACKS.SPECTRAL.SPARKLES.TIMER,
+                scale = palette.config.PACKS.SPECTRAL.SPARKLES.SCALE,
+                initialize = true,
+                lifespan = palette.config.PACKS.SPECTRAL.SPARKLES.LIFESPAN,
+                speed = palette.config.PACKS.SPECTRAL.SPARKLES.SPEED,
+                padding = -1,
+                attach = G.ROOM_ATTACH,
+                colours = {HEX(palette.config.PACKS.SPECTRAL.SPARKLES.COLOURS.ONE), HEX(palette.config.PACKS.SPECTRAL.SPARKLES.COLOURS.TWO)},
+                fill = true
+'''
+match_indent = false
+
+##Standard
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/game_object.lua"]'
+pattern = '''
+                timer = 0.015,
+                scale = 0.3,
+                initialize = true,
+                lifespan = 3,
+                speed = 0.2,
+                padding = -1,
+                attach = G.ROOM_ATTACH,
+                colours = {G.C.BLACK, G.C.RED},
+                fill = true
+'''
+position = 'at'
+payload = '''
+                timer = palette.config.PACKS.STANDARD.SPARKLES.TIMER,
+                scale = palette.config.PACKS.STANDARD.SPARKLES.SCALE,
+                initialize = true,
+                lifespan = palette.config.PACKS.STANDARD.SPARKLES.LIFESPAN,
+                speed = palette.config.PACKS.STANDARD.SPARKLES.SPEED,
+                padding = -1,
+                attach = G.ROOM_ATTACH,
+                colours = {HEX(palette.config.PACKS.STANDARD.SPARKLES.COLOURS.ONE), HEX(palette.config.PACKS.STANDARD.SPARKLES.COLOURS.TWO)},
+                fill = true
+'''
+match_indent = false

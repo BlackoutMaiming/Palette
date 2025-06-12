@@ -17,17 +17,6 @@ function palette_snapshot(val)
     return copy
 end
 
-function palette_validate(val)
-    local hexvals = "ABCDEF0123456789"
-    for i = 1, 6 do
-        local char = val:sub(i,i)
-        if not string.find(hexvals,char) then
-            return false
-        end
-    end
-    return true
-end
-
 --allow 0 to be input to text fields
 G.FUNCS.palette_text_input_key_hex = function(args)
     args = args or {}
@@ -658,7 +647,7 @@ function create_UIBox_palette_arcana()
                 {n=G.UIT.B, config = {h=0.1,w=0.1}},
                 {n = G.UIT.C,config = { align = 'cl' },nodes = {UIBox_button {label = {"Paste"}, colour = G.C.RED,ref_table = arcanah, button = 'palette_paste_hex', minw = 1, minh = 0.6}}}
             }},
-            
+            create_slider({label = "Contrast", scale = 0.5, label_scale = 0.5, ref_table = palette.config.PACKS.ARCANA, ref_value = 'CONTRAST', w = 3, min = 0.1, max = 8, step = 0.1, decimal_places = 1, colour = G.C.PURPLE})
         }},
         {n=G.UIT.C, config={align='tm',r = 0.1,emboss = 0.1,colour = G.C.PURPLE,padding = 0.2}, nodes = {
             {n = G.UIT.R, config = { align = 'tm', minh = 0.5 }, nodes = {{n=G.UIT.T,config={text="SPARKLES",colour=G.C.L_BLACK,scale=0.5,align='cm'}}}},
@@ -730,7 +719,7 @@ function create_UIBox_palette_arcana()
                 {n=G.UIT.B, config = {h=0.1,w=0.1}},
                 {n = G.UIT.C,config = { align = 'cl' },nodes = {UIBox_button {label = {"Paste"}, colour = G.C.RED,ref_table = arcanasf, button = 'palette_paste_hex', minw = 1, minh = 0.6}}}
             }},
-            
+            create_slider({label = "Rate", scale = 0.5, label_scale = 0.5, ref_table = palette.config.PACKS.ARCANA.SPARKLES, ref_value = 'TIMER', w = 3, min = 0.001, max = 1.000, step = 0.001, decimal_places = 3, colour = G.C.GOLD})
         }},
         {n=G.UIT.C, config={align='tm',r = 0.1,emboss = 0.1,colour = G.C.GOLD,padding = 0.2}, nodes = {
             {n = G.UIT.R, config = { align = 'cm', minh = 0.5 }, nodes = {{n=G.UIT.T,config={text="SPARKLES",colour=G.C.L_BLACK,scale=0.5,align='cm'}}}},
@@ -784,7 +773,7 @@ function create_UIBox_palette_celestial()
                 {n=G.UIT.B, config = {h=0.1,w=0.1}},
                 {n = G.UIT.C,config = { align = 'cl' },nodes = {UIBox_button {label = {"Paste"}, colour = G.C.RED,ref_table = celestialh, button = 'palette_paste_hex', minw = 1, minh = 0.6}}}
             }},
-            create_slider({label = "Contrast", scale = 0.5, label_scale = 0.5, ref_table = palette.config.PACKS.CELESTIAL, ref_value = 'CONTRAST', w = 3, min = 0.1, max = 8, step = 0.1, decimal_places = 1, colour = G.C.GOLD}),
+            create_slider({label = "Contrast", scale = 0.5, label_scale = 0.5, ref_table = palette.config.PACKS.CELESTIAL, ref_value = 'CONTRAST', w = 3, min = 0.1, max = 8, step = 0.1, decimal_places = 1, colour = G.C.SECONDARY_SET.Planet}),
         }},
         {n=G.UIT.C, config={align='cm',r = 0.1,emboss = 0.1,colour = HEX('13afce'),padding = 0.2}, nodes = {
             {n = G.UIT.R, config = { align = 'cm', minh = 0.5 }, nodes = {{n=G.UIT.T,config={text="OTHERS",colour=G.C.L_BLACK,scale=0.5,align='cm'}}}},
@@ -961,6 +950,7 @@ function create_UIBox_palette_spectral()
                 {n=G.UIT.B, config = {h=0.1,w=0.1}},
                 {n = G.UIT.C,config = { align = 'cl' },nodes = {UIBox_button {label = {"Paste"}, colour = G.C.RED,ref_table = spectralh, button = 'palette_paste_hex', minw = 1, minh = 0.6}}}
             }},
+            create_slider({label = "Contrast", scale = 0.5, label_scale = 0.5, ref_table = palette.config.PACKS.SPECTRAL, ref_value = 'CONTRAST', w = 3, min = 0.1, max = 8, step = 0.1, decimal_places = 1, colour = G.C.SECONDARY_SET.Spectral})
         }},
         {n=G.UIT.C, config={align='tm',r = 0.1,emboss = 0.1,colour = G.C.SECONDARY_SET.Spectral,padding = 0.2}, nodes = {
             {n = G.UIT.R, config = { align = 'tm', minh = 0.5 }, nodes = {{n=G.UIT.T,config={text="SPARKLES",colour=G.C.L_BLACK,scale=0.5,align='cm'}}}},
@@ -997,7 +987,8 @@ function create_UIBox_palette_spectral()
                 }},
                 {n=G.UIT.B, config = {h=0.1,w=0.1}},
                 {n = G.UIT.C,config = { align = 'cl' },nodes = {UIBox_button {label = {"Paste"}, colour = G.C.RED,ref_table = spectralst, button = 'palette_paste_hex', minw = 1, minh = 0.6}}}
-            }}
+            }},
+            create_slider({label = "Rate", scale = 0.5, label_scale = 0.5, ref_table = palette.config.PACKS.SPECTRAL.SPARKLES, ref_value = 'TIMER', w = 3, min = 0.001, max = 1.000, step = 0.001, decimal_places = 3, colour = G.C.GOLD})
         }},
         {n=G.UIT.C, config={align='tm',r = 0.1,emboss = 0.1,colour = G.C.GOLD,padding = 0.2}, nodes = {
             {n = G.UIT.R, config = { align = 'cm', minh = 0.5 }, nodes = {{n=G.UIT.T,config={text="SPARKLES",colour=G.C.L_BLACK,scale=0.5,align='cm'}}}},
@@ -1070,6 +1061,7 @@ function create_UIBox_palette_standard()
                 {n=G.UIT.B, config = {h=0.1,w=0.1}},
                 {n = G.UIT.C,config = { align = 'cl' },nodes = {UIBox_button {label = {"Paste"}, colour = G.C.RED,ref_table = standardh, button = 'palette_paste_hex', minw = 1, minh = 0.6}}}
             }},
+            create_slider({label = "Contrast", scale = 0.5, label_scale = 0.5, ref_table = palette.config.PACKS.STANDARD, ref_value = 'CONTRAST', w = 3, min = 0.1, max = 8, step = 0.1, decimal_places = 1, colour = G.C.RED})
         }},
         {n=G.UIT.C, config={align='tm',r = 0.1,emboss = 0.1,colour = G.C.RED,padding = 0.2}, nodes = {
             {n = G.UIT.R, config = { align = 'tm', minh = 0.5 }, nodes = {{n=G.UIT.T,config={text="SPARKLES",colour=G.C.L_BLACK,scale=0.5,align='cm'}}}},
@@ -1106,7 +1098,8 @@ function create_UIBox_palette_standard()
                 }},
                 {n=G.UIT.B, config = {h=0.1,w=0.1}},
                 {n = G.UIT.C,config = { align = 'cl' },nodes = {UIBox_button {label = {"Paste"}, colour = G.C.RED,ref_table = standardst, button = 'palette_paste_hex', minw = 1, minh = 0.6}}}
-            }}
+            }},
+            create_slider({label = "Rate", scale = 0.5, label_scale = 0.5, ref_table = palette.config.PACKS.STANDARD.SPARKLES, ref_value = 'TIMER', w = 3, min = 0.001, max = 1.000, step = 0.001, decimal_places = 3, colour = G.C.BLACK})
         }},
         {n=G.UIT.C, config={align='tm',r = 0.1,emboss = 0.1,colour = G.C.BLACK,padding = 0.2}, nodes = {
             {n = G.UIT.R, config = { align = 'cm', minh = 0.5 }, nodes = {{n=G.UIT.T,config={text="SPARKLES",colour=G.C.L_BLACK,scale=0.5,align='cm'}}}},
