@@ -18,6 +18,17 @@ return {
             ["COLLECTION"] = "56A887"
         }
     },
+    ["CHIPS"] = {
+        ["BOX"] = "009DFF",
+        ["LABEL"] = "FFFFFF",
+        ["FIRE"] = "009DFF"
+    },
+    ["MULT"] = {
+        ["BOX"] = "FE5F55",
+        ["LABEL"] = "FFFFFF",
+        ["FIRE"] = "FE5F55"
+    },
+    ["CXM"] = "FE5F55",
     ["PACKS"] = {
         ["BUFFOON"] = {
             ["COLOURO"] = "FF9A00",

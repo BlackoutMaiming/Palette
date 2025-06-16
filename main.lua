@@ -231,6 +231,14 @@ G.FUNCS.palette_startup_settings = function()
     G.OVERLAY_MENU:get_UIE_by_ID("palette_startup_settings_id").UIBox:recalculate()
 end
 
+G.FUNCS.palette_chipsxmult = function()
+    G.SETTINGS.paused = true
+    G.FUNCS.overlay_menu{
+        definition = create_UIBox_palette_chipsxmult()
+    }
+    G.OVERLAY_MENU:get_UIE_by_ID("palette_chipsxmult_id").UIBox:recalculate()
+end
+
 G.FUNCS.palette_buffoon = function()
     G.SETTINGS.paused = true
     G.FUNCS.overlay_menu{
@@ -293,11 +301,13 @@ end
 function create_UIBox_palette_settings()
     local main_menu = UIBox_button({button = 'palette_main_menu_settings', label = {'Main Menu'}, minw = 3})
     local startup = UIBox_button({button = 'palette_startup_settings', label = {'Startup'}, minw = 3})
+    local chipsmult = UIBox_button({button = 'palette_chipsxmult', label = {'Chips/Mult'}, minw = 3})
 
     local t = create_UIBox_generic_options ({ back_func = G.STAGE == G.STAGES.RUN and 'options' or 'exit_overlay_menu', contents = {
         {n=G.UIT.C,config={align='cm',padding=0.15},nodes={
             main_menu,
-            startup
+            startup,
+            chipsmult
         }},
         {n=G.UIT.C,config={align='cm',padding=0.15},nodes={
             {n=G.UIT.R, config={align = "cm", padding = 0.1, r=0.2, colour = G.C.BLACK}, nodes={
@@ -516,13 +526,154 @@ function create_UIBox_palette_startup_settings()
     return t
 end
 
+function create_UIBox_palette_chipsxmult()
+    local priori = palette_snapshot(palette.config)
+    local cbox = {id="palette_chips_box_hex"}
+    local clabel = {id="palette_chips_label_hex"}
+    local cfire = {id="palette_chips_fire_hex"}
+    local xbox = {id="palette_x_hex"}
+    local mbox = {id="palette_mult_box_hex"}
+    local mlabel = {id="palette_mult_label_hex"}
+    local mfire = {id="palette_mult_fire_hex"}
+    local t = create_UIBox_generic_options ({ back_func = 'palette', contents = {
+        {n=G.UIT.C, config={align='cm',id='palette_chipsxmult_id',r=0.1,emboss=0.1,colour=G.C.BLUE,padding=0.2},nodes={
+            {n = G.UIT.R, config = { align = 'cm', minh = 0.5 }, nodes = {{n=G.UIT.T,config={text="CHIPS",colour=G.C.L_BLACK,scale=0.5,align='cm'}}}},
+            {n = G.UIT.R, config = { align = 'cm', minh = 0.5 }, nodes = {
+                {n = G.UIT.C,config = {align = 'cm'},nodes = {
+                    {n = G.UIT.T, config = {text = "Box: ", colour = G.C.UI.TEXT_LIGHT, scale = 0.5, align = 'cr'}},
+                    create_text_input({w = 2, h = 0.5, max_length = 6, prompt_text = 'Enter Hex Code', ref_table = priori.CHIPS, ref_value = 'BOX', id = 'palette_chips_box_hex', extended_corpus = true,
+                        callback = function()
+                            if string.len(priori.CHIPS.BOX) == 6 then
+                                palette.config.CHIPS.BOX = priori.CHIPS.BOX
+                                palette:save_config()
+                            else
+                                priori.CHIPS.BOX = palette.config.CHIPS.BOX
+                            end
+                        end
+                    })
+                }},
+                {n=G.UIT.B, config = {h=0.1,w=0.1}},
+                {n = G.UIT.C,config = { align = 'cl' },nodes = {UIBox_button {label = {"Paste"}, colour = G.C.RED,ref_table = cbox, button = 'palette_paste_hex', minw = 1, minh = 0.6}}}
+            }},
+            {n = G.UIT.R, config = { align = 'cm', minh = 0.5 }, nodes = {
+                {n = G.UIT.C,config = {align = 'cm'},nodes = {
+                    {n = G.UIT.T, config = {text = "Label: ", colour = G.C.UI.TEXT_LIGHT, scale = 0.5, align = 'cr'}},
+                    create_text_input({w = 2, h = 0.5, max_length = 6, prompt_text = 'Enter Hex Code', ref_table = priori.CHIPS, ref_value = 'LABEL', id = 'palette_chips_label_hex', extended_corpus = true,
+                        callback = function()
+                            if string.len(priori.CHIPS.LABEL) == 6 then
+                                palette.config.CHIPS.LABEL = priori.CHIPS.LABEL
+                                palette:save_config()
+                            else
+                                priori.CHIPS.LABEL = palette.config.CHIPS.LABEL
+                            end
+                        end
+                    })
+                }},
+                {n=G.UIT.B, config = {h=0.1,w=0.1}},
+                {n = G.UIT.C,config = { align = 'cl' },nodes = {UIBox_button {label = {"Paste"}, colour = G.C.RED,ref_table = clabel, button = 'palette_paste_hex', minw = 1, minh = 0.6}}}
+            }},
+            {n = G.UIT.R, config = { align = 'cm', minh = 0.5 }, nodes = {
+                {n = G.UIT.C,config = {align = 'cm'},nodes = {
+                    {n = G.UIT.T, config = {text = "Fire: ", colour = G.C.UI.TEXT_LIGHT, scale = 0.5, align = 'cr'}},
+                    create_text_input({w = 2, h = 0.5, max_length = 6, prompt_text = 'Enter Hex Code', ref_table = priori.CHIPS, ref_value = 'FIRE', id = 'palette_chips_fire_hex', extended_corpus = true,
+                        callback = function()
+                            if string.len(priori.CHIPS.FIRE) == 6 then
+                                palette.config.CHIPS.FIRE = priori.CHIPS.FIRE
+                                palette:save_config()
+                            else
+                                priori.CHIPS.FIRE = palette.config.CHIPS.FIRE
+                            end
+                        end
+                    })
+                }},
+                {n=G.UIT.B, config = {h=0.1,w=0.1}},
+                {n = G.UIT.C,config = { align = 'cl' },nodes = {UIBox_button {label = {"Paste"}, colour = G.C.RED,ref_table = cfire, button = 'palette_paste_hex', minw = 1, minh = 0.6}}}
+            }},
+        }},
+        {n=G.UIT.C, config={align='cm',r=0.1,emboss=0.1,colour=HEX('96999e'),padding=0.2},nodes={
+            {n = G.UIT.R, config = { align = 'cm', minh = 0.5 }, nodes = {{n=G.UIT.T,config={text="X",colour=G.C.L_BLACK,scale=0.5,align='cm'}}}},
+            {n = G.UIT.R, config = { align = 'cm', minh = 0.5 }, nodes = {
+                {n = G.UIT.C,config = {align = 'cm'},nodes = {
+                    create_text_input({w = 2, h = 0.5, max_length = 6, prompt_text = 'Enter Hex Code', ref_table = priori, ref_value = 'CXM', id = 'palette_x_hex', extended_corpus = true,
+                        callback = function()
+                            if string.len(priori.CXM) == 6 then
+                                palette.config.CXM = priori.CXM
+                                palette:save_config()
+                            else
+                                priori.CXM = palette.config.CXM
+                            end
+                        end
+                    })
+                }},
+                {n=G.UIT.B, config = {h=0.1,w=0.1}},
+                {n = G.UIT.C,config = { align = 'cl' },nodes = {UIBox_button {label = {"Paste"}, colour = G.C.RED,ref_table = xbox, button = 'palette_paste_hex', minw = 1, minh = 0.6}}}
+            }},
+        }},
+        {n=G.UIT.C, config={align='cm',r=0.1,emboss=0.1,colour=G.C.RED,padding=0.2},nodes={
+            {n = G.UIT.R, config = { align = 'cm', minh = 0.5 }, nodes = {{n=G.UIT.T,config={text="MULT",colour=G.C.L_BLACK,scale=0.5,align='cm'}}}},
+            {n = G.UIT.R, config = { align = 'cm', minh = 0.5 }, nodes = {
+                {n = G.UIT.C,config = {align = 'cm'},nodes = {
+                    {n = G.UIT.T, config = {text = "Box: ", colour = G.C.UI.TEXT_LIGHT, scale = 0.5, align = 'cr'}},
+                    create_text_input({w = 2, h = 0.5, max_length = 6, prompt_text = 'Enter Hex Code', ref_table = priori.MULT, ref_value = 'BOX', id = 'palette_mult_box_hex', extended_corpus = true,
+                        callback = function()
+                            if string.len(priori.MULT.BOX) == 6 then
+                                palette.config.MULT.BOX = priori.MULT.BOX
+                                palette:save_config()
+                            else
+                                priori.MULT.BOX = palette.config.MULT.BOX
+                            end
+                        end
+                    })
+                }},
+                {n=G.UIT.B, config = {h=0.1,w=0.1}},
+                {n = G.UIT.C,config = { align = 'cl' },nodes = {UIBox_button {label = {"Paste"}, colour = G.C.RED,ref_table = mbox, button = 'palette_paste_hex', minw = 1, minh = 0.6}}}
+            }},
+            {n = G.UIT.R, config = { align = 'cm', minh = 0.5 }, nodes = {
+                {n = G.UIT.C,config = {align = 'cm'},nodes = {
+                    {n = G.UIT.T, config = {text = "Label: ", colour = G.C.UI.TEXT_LIGHT, scale = 0.5, align = 'cr'}},
+                    create_text_input({w = 2, h = 0.5, max_length = 6, prompt_text = 'Enter Hex Code', ref_table = priori.MULT, ref_value = 'LABEL', id = 'palette_mult_label_hex', extended_corpus = true,
+                        callback = function()
+                            if string.len(priori.MULT.LABEL) == 6 then
+                                palette.config.MULT.LABEL = priori.MULT.LABEL
+                                palette:save_config()
+                            else
+                                priori.MULT.LABEL = palette.config.MULT.LABEL
+                            end
+                        end
+                    })
+                }},
+                {n=G.UIT.B, config = {h=0.1,w=0.1}},
+                {n = G.UIT.C,config = { align = 'cl' },nodes = {UIBox_button {label = {"Paste"}, colour = G.C.RED,ref_table = mlabel, button = 'palette_paste_hex', minw = 1, minh = 0.6}}}
+            }},
+            {n = G.UIT.R, config = { align = 'cm', minh = 0.5 }, nodes = {
+                {n = G.UIT.C,config = {align = 'cm'},nodes = {
+                    {n = G.UIT.T, config = {text = "Fire: ", colour = G.C.UI.TEXT_LIGHT, scale = 0.5, align = 'cr'}},
+                    create_text_input({w = 2, h = 0.5, max_length = 6, prompt_text = 'Enter Hex Code', ref_table = priori.MULT, ref_value = 'FIRE', id = 'palette_mult_fire_hex', extended_corpus = true,
+                        callback = function()
+                            if string.len(priori.MULT.FIRE) == 6 then
+                                palette.config.MULT.FIRE = priori.MULT.FIRE
+                                palette:save_config()
+                            else
+                                priori.MULT.FIRE = palette.config.MULT.FIRE
+                            end
+                        end
+                    })
+                }},
+                {n=G.UIT.B, config = {h=0.1,w=0.1}},
+                {n = G.UIT.C,config = { align = 'cl' },nodes = {UIBox_button {label = {"Paste"}, colour = G.C.RED,ref_table = mfire, button = 'palette_paste_hex', minw = 1, minh = 0.6}}}
+            }},
+        }},
+    }})
+    return t
+end
+
 function create_UIBox_palette_buffoon()
     local priori = palette_snapshot(palette.config)
     local buffoono = {id='palette_buffoon_back_one_hex'}
     local buffoont = {id='palette_buffoon_back_two_hex'}
     local buffoonh = {id='palette_buffoon_hud_hex'}
     local t = create_UIBox_generic_options ({ back_func = 'palette', contents = {
-        {n=G.UIT.C, config={align='cm',id='palette_buffoon_settings_id',r = 0.1,emboss = 0.1,colour = HEX('96999e'),padding = 0.2}, nodes = {
+        {n=G.UIT.C, config={align='cm',id='palette_buffoon_settings_id',r = 0.1,emboss = 0.1,colour = G.C.FILTER,padding = 0.2}, nodes = {
             {n = G.UIT.R, config = { align = 'cm', minh = 0.5 }, nodes = {{n=G.UIT.T,config={text="BACKGROUND",colour=G.C.L_BLACK,scale=0.5,align='cm'}}}},
             {n = G.UIT.R, config = { align = 'cm', minh = 0.5 }, nodes = {
                 {n = G.UIT.C,config = {align = 'cm'},nodes = {
@@ -719,7 +870,7 @@ function create_UIBox_palette_arcana()
                 {n=G.UIT.B, config = {h=0.1,w=0.1}},
                 {n = G.UIT.C,config = { align = 'cl' },nodes = {UIBox_button {label = {"Paste"}, colour = G.C.RED,ref_table = arcanasf, button = 'palette_paste_hex', minw = 1, minh = 0.6}}}
             }},
-            create_slider({label = "Rate", scale = 0.5, label_scale = 0.5, ref_table = palette.config.PACKS.ARCANA.SPARKLES, ref_value = 'TIMER', w = 3, min = 0.001, max = 1.000, step = 0.001, decimal_places = 3, colour = G.C.GOLD})
+            create_slider({label = "Rate", scale = 0.5, label_scale = 0.5, ref_table = palette.config.PACKS.ARCANA.SPARKLES, ref_value = 'TIMER', w = 3, min = 0.001, max = 0.500, step = 0.001, decimal_places = 3, colour = G.C.GOLD})
         }},
         {n=G.UIT.C, config={align='tm',r = 0.1,emboss = 0.1,colour = G.C.GOLD,padding = 0.2}, nodes = {
             {n = G.UIT.R, config = { align = 'cm', minh = 0.5 }, nodes = {{n=G.UIT.T,config={text="SPARKLES",colour=G.C.L_BLACK,scale=0.5,align='cm'}}}},
@@ -988,7 +1139,7 @@ function create_UIBox_palette_spectral()
                 {n=G.UIT.B, config = {h=0.1,w=0.1}},
                 {n = G.UIT.C,config = { align = 'cl' },nodes = {UIBox_button {label = {"Paste"}, colour = G.C.RED,ref_table = spectralst, button = 'palette_paste_hex', minw = 1, minh = 0.6}}}
             }},
-            create_slider({label = "Rate", scale = 0.5, label_scale = 0.5, ref_table = palette.config.PACKS.SPECTRAL.SPARKLES, ref_value = 'TIMER', w = 3, min = 0.001, max = 1.000, step = 0.001, decimal_places = 3, colour = G.C.GOLD})
+            create_slider({label = "Rate", scale = 0.5, label_scale = 0.5, ref_table = palette.config.PACKS.SPECTRAL.SPARKLES, ref_value = 'TIMER', w = 3, min = 0.001, max = 0.500, step = 0.001, decimal_places = 3, colour = G.C.GOLD})
         }},
         {n=G.UIT.C, config={align='tm',r = 0.1,emboss = 0.1,colour = G.C.GOLD,padding = 0.2}, nodes = {
             {n = G.UIT.R, config = { align = 'cm', minh = 0.5 }, nodes = {{n=G.UIT.T,config={text="SPARKLES",colour=G.C.L_BLACK,scale=0.5,align='cm'}}}},
@@ -1099,7 +1250,7 @@ function create_UIBox_palette_standard()
                 {n=G.UIT.B, config = {h=0.1,w=0.1}},
                 {n = G.UIT.C,config = { align = 'cl' },nodes = {UIBox_button {label = {"Paste"}, colour = G.C.RED,ref_table = standardst, button = 'palette_paste_hex', minw = 1, minh = 0.6}}}
             }},
-            create_slider({label = "Rate", scale = 0.5, label_scale = 0.5, ref_table = palette.config.PACKS.STANDARD.SPARKLES, ref_value = 'TIMER', w = 3, min = 0.001, max = 1.000, step = 0.001, decimal_places = 3, colour = G.C.BLACK})
+            create_slider({label = "Rate", scale = 0.5, label_scale = 0.5, ref_table = palette.config.PACKS.STANDARD.SPARKLES, ref_value = 'TIMER', w = 3, min = 0.001, max = 0.500, step = 0.001, decimal_places = 3, colour = G.C.BLACK})
         }},
         {n=G.UIT.C, config={align='tm',r = 0.1,emboss = 0.1,colour = G.C.BLACK,padding = 0.2}, nodes = {
             {n = G.UIT.R, config = { align = 'cm', minh = 0.5 }, nodes = {{n=G.UIT.T,config={text="SPARKLES",colour=G.C.L_BLACK,scale=0.5,align='cm'}}}},

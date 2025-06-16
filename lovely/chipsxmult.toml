@@ -1,0 +1,97 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+#Chips - Box
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''
+{n=G.UIT.C, config={align = "cr", minw = 2, minh =1, r = 0.1,colour = G.C.UI_CHIPS, id = 'hand_chip_area', emboss = 0.05}, nodes={
+'''
+position = 'at'
+payload = '''
+{n=G.UIT.C, config={align = "cr", minw = 2, minh =1, r = 0.1,colour = HEX(palette.config.CHIPS.BOX), id = 'hand_chip_area', emboss = 0.05}, nodes={
+'''
+match_indent = true
+
+#Chips - Text Colour - See notes
+[[patches]]
+[patches.regex]
+target = 'functions/UI_definitions.lua'
+pattern = '''DynaText\(\{string = \{\{ref_table = G\.GAME\.current_round\.current_hand, ref_value = "chip_text"\}\}, colours = \{G\.C\.UI\.TEXT_LIGHT\}'''
+position = 'at'
+payload = '''DynaText({string = {{ref_table = G.GAME.current_round.current_hand, ref_value = "chip_text"}}, colours = {HEX(palette.config.CHIPS.LABEL)}'''
+match_indent = false
+
+#X
+[[patches]]
+[patches.regex]
+target = 'functions/UI_definitions.lua'
+pattern = '''scale = scale\*2, colour = G\.C\.UI_MULT, shadow = true}},'''
+position = 'at'
+payload = '''scale = scale*2, colour = HEX(palette.config.CXM), shadow = true}},'''
+match_indent = false
+
+#Mult - Box 
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''
+{n=G.UIT.C, config={align = "cl", minw = 2, minh=1, r = 0.1,colour = G.C.UI_MULT, id = 'hand_mult_area', emboss = 0.05}, nodes={
+'''
+position = 'at'
+payload = '''
+{n=G.UIT.C, config={align = "cl", minw = 2, minh=1, r = 0.1,colour = HEX(palette.config.MULT.BOX), id = 'hand_mult_area', emboss = 0.05}, nodes={
+'''
+match_indent = true
+
+#Mult - Text Colour - See notes
+[[patches]]
+[patches.regex]
+target = 'functions/UI_definitions.lua'
+pattern = '''DynaText\(\{string = \{\{ref_table = G\.GAME\.current_round\.current_hand, ref_value = "mult_text"\}\}, colours = \{G\.C\.UI\.TEXT_LIGHT\}'''
+position = 'at'
+payload = '''DynaText({string = {{ref_table = G.GAME.current_round.current_hand, ref_value = "mult_text"}}, colours = {HEX(palette.config.MULT.LABEL)}'''
+match_indent = false
+
+
+#Flame handler - See notes
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+pattern = '''
+  G.ARGS.flame_handler = G.ARGS.flame_handler or {
+    chips = {
+      id = 'flame_chips', 
+      arg_tab = 'chip_flames',
+      colour = G.C.UI_CHIPS,
+      accent = G.C.UI_CHIPLICK
+    },
+    mult = {
+      id = 'flame_mult', 
+      arg_tab = 'mult_flames',
+      colour = G.C.UI_MULT,
+      accent = G.C.UI_MULTLICK
+    }
+  }
+'''
+position = 'at'
+payload = '''
+  G.ARGS.flame_handler = G.ARGS.flame_handler or {
+    chips = {
+      id = 'flame_chips', 
+      arg_tab = 'chip_flames',
+      colour = HEX(palette.config.CHIPS.FIRE),
+      accent = G.C.UI_CHIPLICK
+    },
+    mult = {
+      id = 'flame_mult', 
+      arg_tab = 'mult_flames',
+      colour = HEX(palette.config.MULT.FIRE),
+      accent = G.C.UI_MULTLICK
+    }
+  }
+'''
+match_indent = false
